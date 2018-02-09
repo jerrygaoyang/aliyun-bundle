@@ -17,7 +17,13 @@ class Sms
 
     public function __construct($accessKeyId, $accessKeySecret, $region)
     {
-        $this->client = Client::init($accessKeyId, $accessKeySecret, $region);
+        $options = [
+            'endPointName' => $region,
+            'product' => 'Dysmsapi',
+            'domain' => 'dysmsapi.aliyuncs.com'
+        ];
+
+        $this->client = Client::init($accessKeyId, $accessKeySecret, $region, $options);
     }
 
     /**

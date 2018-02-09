@@ -20,40 +20,42 @@ class Push
     {
         $this->client = Client::init($accessKeyId, $accessKeySecret, $region);
     }
+
     /**
-     * @param $Title
-     * @param $Body
-     * @param $Target
-     * @param $TargetValue
-     * @param $PushType
-     * @param $ExtParameters
+     * @param $appKey
+     * @param $title
+     * @param $body
+     * @param $target
+     * @param $targetValue
+     * @param $pushType
+     * @param $extParameters
+     * @param string $iOSApnsEnv
      * @return mixed|\SimpleXMLElement
      * @throws \Aliyun\Core\Exception\ClientException
      */
-    public function send($Title, $Body, $Target, $TargetValue, $PushType, $ExtParameters)
+    public function send($appKey, $title, $body, $target, $targetValue, $pushType, $extParameters, $iOSApnsEnv = 'DEV')
     {
-        $appKey = config('aliyun.PUSH.AppKey');
         $request = new PushRequest();
         // TODO 推送目标
         $request->setAppKey($appKey);
         //推送目标: DEVICE:推送给设备; ACCOUNT:推送给指定帐号,TAG:推送给自定义标签; ALL: 推送给全部
-        $request->setTarget($Target);
+        $request->setTarget($target);
         //根据Target来设定，如Target=device, 则对应的值为 设备id1,设备id2. 多个值使用逗号分隔.(帐号与设备有一次最多100个的限制)
-        $request->setTargetValue($TargetValue);
+        $request->setTargetValue($targetValue);
         //消息类型 MESSAGE NOTICE
-        $request->setPushType($PushType);
+        $request->setPushType($pushType);
         // 消息的标题
-        $request->setTitle($Title);
+        $request->setTitle($title);
         // 消息的内容
-        $request->setBody($Body);
+        $request->setBody($body);
         //设备类型 ANDROID iOS ALL.
         $request->setDeviceType("ALL");
 
         // TODO 推送配置: iOS
         //iOS的通知是通过APNs中心来发送的，需要填写对应的环境信息。"DEV" : 表示开发环境 "PRODUCT" : 表示生产环境
-        $request->setiOSApnsEnv(config('aliyun.PUSH.IOSApnsEnv'));
+        $request->setiOSApnsEnv($iOSApnsEnv);
         //自定义的kv结构,开发者扩展用 针对iOS设备
-        $request->setiOSExtParameters(json_encode($ExtParameters));
+        $request->setiOSExtParameters(json_encode($extParameters));
         // iOS应用图标右上角角标
         //$request->setiOSBadge("5");
         // iOS通知声音
@@ -65,7 +67,7 @@ class Push
 
 
         // TODO 推送配置: Android
-        $request->setAndroidExtParameters(json_encode($ExtParameters)); // 设定android类型设备通知的扩展属性
+        $request->setAndroidExtParameters(json_encode($extParameters)); // 设定android类型设备通知的扩展属性
         //通知的提醒方式 "VIBRATE" : 震动 "SOUND" : 声音 "BOTH" : 声音和震动 NONE : 静音
         //$request->setAndroidNotifyType("NONE");
         //通知栏自定义样式0-100
