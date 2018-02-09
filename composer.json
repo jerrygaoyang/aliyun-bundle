@@ -1,0 +1,25 @@
+{
+  "name": "gaoyang/aliyun-bundle",
+  "description": "Aliyun SDK for PHP",
+  "keywords": [ "aliyun", "sdk" ],
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://www.aliyun.com",
+  "authors": [
+    {
+      "name": "gaoyang"
+    }
+  ],
+  "require": {
+    "gaoyang/aliyun-core": "*",
+	"gaoyang/aliyun-iot": "*",
+	"gaoyang/aliyun-sms": "*",
+	"gaoyang/aliyun-push": "*"
+  },
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {
+      "Aliyun\\Iot\\": "src"
+    }
+  }
+}
