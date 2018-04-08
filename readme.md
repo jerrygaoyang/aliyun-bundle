@@ -13,6 +13,11 @@
 * aliyun-sms    (阿里云短信)
 
 
+### 安装
+
+> composer require gaoyang/aliyun-bundle
+
+
 ### 阿里云短信 api
 
 ```
